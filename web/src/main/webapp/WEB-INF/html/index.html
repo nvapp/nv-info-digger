@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>查询</title>
+	<link rel="stylesheet" type="text/css" href="/search/resources/js/jquery.easyui/themes/default/easyui.css">
+	<script type="text/javascript" src="/search/resources/js/jquery/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/search/resources/js/jquery.easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/search/resources/js/jquery.easyui/datagrid-detailview.js"></script>
+	<script type="text/javascript" src="/search/resources/js/jquery.easyui/easyui-lang-zh_CN.js"></script>
+	<style type="text/css">
+		.hightlighterCss{
+			color: #f00;
+		}
+	</style>
+</head>
+<body class="easyui-layout" scroll="none">
+	<noscript>
+		<div style=" position:absolute; z-index:100000; height:2046px;top:0px;left:0px; width:100%; background:white; text-align:center;">
+    		<img src="resources/images/noscript.gif" alt='抱歉，请开启脚本支持！' />
+		</div>
+	</noscript>
+	<div data-options="region:'center'">
+		<table id="tt" class="easyui-datagrid" url="/search/query.mvc" title="搜索" toolbar="#tb" rownumbers="true" pagination="true" fit="true">
+			<thead>
+				<tr>
+					<th field="content" width="600">内容</th>
+					<th field="fileName" width="150">查看详细</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="tb">
+		<span>搜索内容</span>
+		<input id="content"></input>
+		<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">搜索</a>
+	</div>
+	<script type="text/javascript">
+		function doSearch(){
+			$('#tt').datagrid('load',{  
+            	content:$('#content').val()  
+            });  
+		}
+	</script>
+</body>
+</html>
