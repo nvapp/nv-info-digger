@@ -41,6 +41,7 @@ public class TextCrawler extends WebCrawler {
     @Override
     public boolean shouldVisit(WebURL url) {
         String href = url.getURL().toLowerCase();
+        System.out.println(href);
         if (FILTERS.matcher(href).matches()) {
             return false;
         }
@@ -54,7 +55,7 @@ public class TextCrawler extends WebCrawler {
     @Override
     public void visit(Page page) {
         String url = page.getWebURL().getURL();
-        System.out.println(url);
+        System.out.println("开始处理:" + url);
         if (page.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
             String html = htmlParseData.getHtml();
