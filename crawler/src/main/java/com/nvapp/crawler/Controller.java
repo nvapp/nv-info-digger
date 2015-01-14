@@ -45,6 +45,8 @@ public class Controller {
          * crawler starts following links which are found in these pages
          */
         controller.addSeed("http://www.cea.gov.cn/");
+        controller.addSeed("http://www.iem.net.cn/");
+        controller.addSeed("http://www.hnea.gov.cn/");
 
         /*
          * Start the crawl. This is a blocking operation, meaning that your code will reach the line after this only

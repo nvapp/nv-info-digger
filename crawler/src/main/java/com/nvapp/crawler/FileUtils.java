@@ -24,7 +24,7 @@ import java.util.UUID;
  */
 public class FileUtils {
     public static final void saveToFile(String content) {
-        File file = new File("d:/wett/" + UUID.randomUUID().toString() + ".txt");
+        File file = new File("e:/capture/" + UUID.randomUUID().toString() + ".txt");
         try (FileWriter fr = new FileWriter(file)) {
             fr.write(content);
             fr.flush();

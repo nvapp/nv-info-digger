@@ -69,10 +69,10 @@ public class TextCrawler extends WebCrawler {
 
                 if (el.hasText()) {
                     String content = el.text();
-
-                    if (content.contains("地震") || content.contains("厦门")) {
-                        FileUtils.saveToFile(content);
-                    }
+                    if (content.length() > 20)
+                        if (content.contains("地震")) {
+                            FileUtils.saveToFile(content);
+                        }
                 }
             }
         }
