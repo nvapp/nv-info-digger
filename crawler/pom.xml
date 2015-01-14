@@ -57,7 +57,7 @@
 					<archive>
 						<manifest>
 							<mainClass>
-								com.next.Crawler
+								com.nvapp.crawler.Controller
 							</mainClass>
 						</manifest>
 					</archive>
