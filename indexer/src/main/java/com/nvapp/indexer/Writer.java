@@ -208,5 +208,6 @@ public class Writer {
     public static void main(String[] args) {
         Writer writer = new Writer();
         writer.indexFiles(new File("E:/huangqi/capture"));
+        writer.endWrite();
     }
 }
