@@ -3,7 +3,11 @@
  */
 package com.nvapp.indexer;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -94,6 +98,38 @@ public class Writer {
     }
 
     /**
+     * 索引文件
+     * 
+     * @param root 文件目录
+     */
+    public void indexFiles(File root) {
+        try {
+            File[] files = root.listFiles();
+            for (File file : files) {
+                InputStream inputStream = new FileInputStream(file);
+                InputStreamReader fr = new InputStreamReader(inputStream, "gbk");
+                BufferedReader br = new BufferedReader(fr);
+
+                String line = null;
+                StringBuilder sb = new StringBuilder();
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                br.close();
+
+                Document doc = new Document();
+                doc.add(new Field("content", sb.toString(), Store.NO, Index.ANALYZED));
+                doc.add(new Field("fileName", file.getAbsolutePath(), Store.YES, Index.NO));
+
+                indexWriter.addDocument(doc);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
      * 开始写
      */
     public void startWrite() {
@@ -168,18 +204,26 @@ public class Writer {
 
     public static void main(String[] args) {
         try {
-            Writer writer = new Writer();
-            writer.startWrite();
-            writer.writeData(new FileObject("黄奇你好, sex ahow dy an 阿发 sfa fa falf alf alf af alf af af alf a fa afa fa; falf alfalfa jjjjjjjjjjjjjjjjjjd  afa ;fa fla flaf af a al falf alfalf a a falf alfjafalfja lfalf alf alfjalflafjlasfjlafjalfjlafjalfjalfjalf ajflefjal fjalfjalfjelf jalfjlafjalfjalfalfjlajflaef lajfldfjalfjlafjalfjalfjlajelajflajflejlajflajf afla ef alf alf eal falfh aejflafoyfaf elayof alf ale alf alf lafyoef la falf alfyoa flaf lafyoaf af alfyaof elhfaow lflfoe af lafeya fl ad afy",
-                                            "cccc"));
-            writer.writeData(new FileObject("黄奇厦门地震你好ddddd, sex ddd dy and afy", "cccc"));
-            writer.writeData(new FileObject("企管科的啊分页，塞牙缝，的法院搜房啊快递费， 阿发呀", "cccc"));
-            writer.writeData(new FileObject("上的发顺丰 声地震局发射 声发射", "cccc"));
-            writer.writeData(new FileObject("上的发地震顺丰 声发射 声发射", "cccc"));
-            writer.writeData(new FileObject("上的发顺丰地震 声发地震射 声发射", "cccc"));
-            writer.endWrite();
+            // Writer writer = new Writer();
+            // writer.startWrite();
+            // writer.writeData(new
+            // FileObject("黄奇你好, sex ahow dy an 阿发 sfa fa falf alf alf af alf af af alf a fa afa fa; falf alfalfa jjjjjjjjjjjjjjjjjjd  afa ;fa fla flaf af a al falf alfalf a a falf alfjafalfja lfalf alf alfjalflafjlasfjlafjalfjlafjalfjalfjalf ajflefjal fjalfjalfjelf jalfjlafjalfjalfalfjlajflaef lajfldfjalfjlafjalfjalfjlajelajflajflejlajflajf afla ef alf alf eal falfh aejflafoyfaf elayof alf ale alf alf lafyoef la falf alfyoa flaf lafyoaf af alfyaof elhfaow lflfoe af lafeya fl ad afy",
+            // "cccc"));
+            // writer.writeData(new FileObject("黄奇厦门地震你好ddddd, sex ddd dy and afy", "cccc"));
+            // writer.writeData(new FileObject("企管科的啊分页，塞牙缝，的法院搜房啊快递费， 阿发呀", "cccc"));
+            // writer.writeData(new FileObject("上的发顺丰 声地震局发射 声发射", "cccc"));
+            // writer.writeData(new FileObject("上的发地震顺丰 声发射 声发射", "cccc"));
+            // writer.writeData(new FileObject("上的发顺丰地震 声发地震射 声发射", "cccc"));
+            // writer.endWrite();
+            //
+            // // System.out.println(writer.searcherDocs("content", "你好").toJSONString());
 
-//            System.out.println(writer.searcherDocs("content", "你好").toJSONString());
+            File root = new File("d:/tt");
+            File[] files = root.listFiles();
+            for (File file : files) {
+
+                System.out.println(file.getAbsolutePath());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
