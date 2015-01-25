@@ -8,34 +8,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.highlight.Fragmenter;
-import org.apache.lucene.search.highlight.Highlighter;
-import org.apache.lucene.search.highlight.QueryScorer;
-import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
-import org.apache.lucene.search.highlight.SimpleSpanFragmenter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
 import org.apache.lucene.util.Version;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.nvapp.data.FileObject;
 
 /**
@@ -153,56 +138,6 @@ public class Writer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 查找文档
-     * 
-     * @param key 键
-     * @param value 值
-     */
-    public JSONArray searcherDocs(String key, String value) {
-        JSONArray rtn = new JSONArray();
-        try {
-            Term term = new Term(key, value);
-            TermQuery query = new TermQuery(term);
-
-            IndexReader reader = IndexReader.open(directory);
-            IndexSearcher searcher = new IndexSearcher(reader);
-            TopDocs docs = searcher.search(query, 100);
-
-            SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<span class=\"hightlighterCss\">", "</span>");
-            /** 创建QueryScorer */
-            QueryScorer scorer = new QueryScorer(query);
-            /** 创建Fragmenter */
-            Fragmenter fragmenter = new SimpleSpanFragmenter(scorer);
-            Highlighter highlight = new Highlighter(formatter, scorer);
-            highlight.setTextFragmenter(fragmenter);
-            for (ScoreDoc doc : docs.scoreDocs) {
-                Document document = searcher.doc(doc.doc);
-
-                // System.out.println(document.get("fileName"));
-                JSONObject item = new JSONObject();
-
-                String v = document.get("content");
-                if (v != null) {
-                    TokenStream tokenStream = analyzer.tokenStream("content", new StringReader(v));
-                    String str1 = highlight.getBestFragment(tokenStream, v);
-                    item.put("content", str1);
-                } else {
-                    item.put("content", "");
-                }
-
-                item.put("fileName", document.get("fileName"));
-                rtn.add(item);
-            }
-            searcher.close();
-            reader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return rtn;
     }
 
     public static void main(String[] args) {

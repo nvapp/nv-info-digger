@@ -21,7 +21,7 @@
 		</div>
 	</noscript>
 	<div data-options="region:'center'">
-		<table id="tt" class="easyui-datagrid" url="/search/query.mvc" title="搜索" toolbar="#tb" rownumbers="true" pagination="true" fit="true">
+		<table id="tt" class="easyui-datagrid" url="/search/search/query.mvc" title="搜索" toolbar="#tb" rownumbers="true" pagination="true" fit="true">
 			<thead>
 				<tr>
 					<th field="content" width="600">内容</th>
@@ -41,7 +41,7 @@
 	<script type="text/javascript">
 		function doSearch(){
 			$('#tt').datagrid('load',{  
-            	content:$('#content').val()  
+            	value:$('#content').val()  
             });  
 		}
 	</script>

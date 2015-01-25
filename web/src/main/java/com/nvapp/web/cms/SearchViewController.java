@@ -8,7 +8,9 @@ package com.nvapp.web.cms;
 
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
+import org.nutz.mvc.annotation.Param;
 
+import com.nvapp.indexer.Reader;
 
 /**
  * 查询视图
@@ -30,4 +32,16 @@ public class SearchViewController {
     @At("/index")
     @Ok("fm:/WEB-INF/html/index.html")
     public void showIndex() {}
+
+    /**
+     * 查询结果
+     * 
+     * @param value 查询关键字
+     * 
+     */
+    @At("/search/query")
+    @Ok("json")
+    public Object query(@Param("value") String value) {
+        return new Reader().searcherDocs("content", value);
+    }
 }
