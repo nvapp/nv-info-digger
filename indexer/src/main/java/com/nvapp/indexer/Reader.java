@@ -73,8 +73,6 @@ public class Reader {
             BooleanQuery query = new BooleanQuery();
             String[] vs = value.split(" ");
             for (String v : vs) {
-                System.out.println(v.trim());
-
                 Term term = new Term(key, v.trim());
                 query.add(new TermQuery(term), BooleanClause.Occur.MUST);
             }
