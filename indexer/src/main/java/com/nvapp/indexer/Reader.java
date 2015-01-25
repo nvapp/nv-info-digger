@@ -112,7 +112,9 @@ public class Reader {
                     item.put("content", "");
                 }
 
-                item.put("fileName", "<a href=\"#\" onclick='showText(\"" + fileName + "\")'>查看详细</a>");
+                item.put("fileName", "<a href=\"#\" onclick='showText(\""
+                                     + fileName.replace("\\", "\\\\")
+                                     + "\")'>查看详细</a>");
                 rtn.add(item);
             }
 

@@ -6,6 +6,11 @@
  */
 package com.nvapp.web.cms;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
@@ -43,5 +48,35 @@ public class SearchViewController {
     @Ok("json")
     public Object query(@Param("value") String value) {
         return new Reader().searcherDocs("content", value);
+    }
+
+    /**
+     * 显示文件内容
+     * 
+     * @param fileName 文件名
+     * 
+     */
+    @At("/search/showText")
+    @Ok("raw:text/plain")
+    public String showText(@Param("fileName") String fileName) {
+        System.out.println(fileName);
+        try {
+            InputStream inputStream = new FileInputStream(fileName);
+            InputStreamReader fr = new InputStreamReader(inputStream, "gbk");
+            BufferedReader br = new BufferedReader(fr);
+            String line = null;
+            StringBuilder sb = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            br.close();
+
+            return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 }
