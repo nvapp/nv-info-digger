@@ -114,7 +114,7 @@ public class Reader {
                     item.put("content", "");
                 }
 
-                item.put("fileName", document.get("fileName"));
+                item.put("fileName", "<a href='showText(\"" + fileName + "\")'>查看详细</a>");
                 rtn.add(item);
             }
 
